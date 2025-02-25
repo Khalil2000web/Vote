@@ -41,6 +41,7 @@
             let voteResults = document.getElementById("voteResults");
             voteResults.innerHTML = "";
 
+            // Loop through each category to display results
             for (let category in votes) {
                 let categoryDiv = document.createElement("div");
                 categoryDiv.classList.add("category");
