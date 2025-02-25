@@ -41,7 +41,13 @@
             let voteResults = document.getElementById("voteResults");
             voteResults.innerHTML = "";
 
-            // Loop through each category to display results
+            // Ensure we get updated data every time the page is loaded
+            if (!votes) {
+                voteResults.innerHTML = "<p>No votes yet!</p>";
+                return;
+            }
+
+            // Loop through all categories and display votes
             for (let category in votes) {
                 let categoryDiv = document.createElement("div");
                 categoryDiv.classList.add("category");
