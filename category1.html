@@ -58,9 +58,9 @@
                 return;
             }
 
-            // Store vote and update counts
-            if (!votes[category1]) {
-                votes["category1"] = {}; // Ensure category exists
+            // Ensure category exists in localStorage
+            if (!votes["category1"]) {
+                votes["category1"] = {};
             }
 
             // Remove previous vote if exists
@@ -80,9 +80,16 @@
         }
 
         // Disable buttons if user already voted
-        if (localStorage.getItem("category1_vote")) {
-            document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-            document.getElementById('submitBtn').disabled = true;
+        if (localStorage.getItem("votes")) {
+            let storedVotes = JSON.parse(localStorage.getItem("votes"));
+            if (storedVotes["category1"]) {
+                Object.keys(storedVotes["category1"]).forEach(nominee => {
+                    if (storedVotes["category1"][nominee] > 0) {
+                        document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+                        document.getElementById('submitBtn').disabled = true;
+                    }
+                });
+            }
         }
     </script>
 
