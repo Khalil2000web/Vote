@@ -22,7 +22,7 @@
 
     <h1>Category 2: Best VID</h1>
     <p>Vote for your favorite artist!</p>
-    <img class="category-img" src="category1.jpg" alt="Category Image">
+    <img class="category-img" src="category2.jpg" alt="Category Image">
 
     <div class="nominees">
         <div class="nominee">
@@ -59,12 +59,12 @@
             }
 
             // Store vote and update counts
-            if (!votes[category1]) {
+            if (!votes[category2]) {
                 votes["category2"] = {}; // Ensure category exists
             }
 
             // Remove previous vote if exists
-            Object.keys(votes["category1"]).forEach(nominee => {
+            Object.keys(votes["category2"]).forEach(nominee => {
                 if (votes["category2"][nominee] && nominee !== selectedVote) {
                     votes["category2"][nominee] -= 1;
                 }
