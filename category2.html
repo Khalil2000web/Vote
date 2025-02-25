@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category 1 - Voting</title>
+    <title>Category 2 - Voting</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         .category-img { width: 300px; margin: 20px; }
@@ -58,9 +58,9 @@
                 return;
             }
 
-            // Store vote and update counts
-            if (!votes[category2]) {
-                votes["category2"] = {}; // Ensure category exists
+            // Ensure category exists in localStorage
+            if (!votes["category2"]) {
+                votes["category2"] = {};
             }
 
             // Remove previous vote if exists
@@ -80,9 +80,16 @@
         }
 
         // Disable buttons if user already voted
-        if (localStorage.getItem("category2_vote")) {
-            document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-            document.getElementById('submitBtn').disabled = true;
+        if (localStorage.getItem("votes")) {
+            let storedVotes = JSON.parse(localStorage.getItem("votes"));
+            if (storedVotes["category2"]) {
+                Object.keys(storedVotes["category2"]).forEach(nominee => {
+                    if (storedVotes["category2"][nominee] > 0) {
+                        document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+                        document.getElementById('submitBtn').disabled = true;
+                    }
+                });
+            }
         }
     </script>
 
