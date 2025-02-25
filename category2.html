@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category 1 - Voting</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .category-img { width: 300px; margin: 20px; }
+        .nominees { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .nominee { position: relative; display: inline-block; }
+        .nominee img { width: 150px; height: 150px; border-radius: 10px; }
+        .vote-btn { 
+            position: absolute; bottom: 5px; right: 5px; 
+            background: red; color: white; border: none; padding: 5px 10px; cursor: pointer;
+        }
+        .vote-btn.selected { background: green; }
+        #submitBtn { margin-top: 20px; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Category 2: Best VID</h1>
+    <p>Vote for your favorite artist!</p>
+    <img class="category-img" src="category1.jpg" alt="Category Image">
+
+    <div class="nominees">
+        <div class="nominee">
+            <img src="nominee1.jpg" alt="Nominee 1">
+            <button class="vote-btn" onclick="vote('category2', 'nominee1', event)">Vote</button>
+        </div>
+        <div class="nominee">
+            <img src="nominee2.jpg" alt="Nominee 2">
+            <button class="vote-btn" onclick="vote('category2', 'nominee2', event)">Vote</button>
+        </div>
+        <div class="nominee">
+            <img src="nominee3.jpg" alt="Nominee 3">
+            <button class="vote-btn" onclick="vote('category2', 'nominee3', event)">Vote</button>
+        </div>
+    </div>
+
+    <button id="submitBtn" onclick="submitVote()">Submit Vote</button>
+
+    <script>
+        let selectedVote = null;
+        let votes = JSON.parse(localStorage.getItem("votes")) || {};
+
+        function vote(category, nominee, event) {
+            // Allow changing the vote before submitting
+            document.querySelectorAll('.vote-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+            selectedVote = nominee;
+        }
+
+        function submitVote() {
+            if (!selectedVote) {
+                alert("Please select a nominee first!");
+                return;
+            }
+
+            // Store vote and update counts
+            if (!votes[category1]) {
+                votes["category2"] = {}; // Ensure category exists
+            }
+
+            // Remove previous vote if exists
+            Object.keys(votes["category1"]).forEach(nominee => {
+                if (votes["category2"][nominee] && nominee !== selectedVote) {
+                    votes["category2"][nominee] -= 1;
+                }
+            });
+
+            // Count the new vote
+            votes["category2"][selectedVote] = (votes["category2"][selectedVote] || 0) + 1;
+            localStorage.setItem("votes", JSON.stringify(votes));
+
+            alert("Vote submitted!");
+            document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+            document.getElementById('submitBtn').disabled = true;
+        }
+
+        // Disable buttons if user already voted
+        if (localStorage.getItem("category2_vote")) {
+            document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+            document.getElementById('submitBtn').disabled = true;
+        }
+    </script>
+
+</body>
+</html>
