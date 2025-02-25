@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Voting Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #results { display: none; }
+        .category { margin-top: 20px; }
+        .highlight { font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Panel - Voting Results</h1>
+    <p>Enter the admin password to view results:</p>
+    <input type="password" id="adminPass">
+    <button onclick="checkPassword()">Enter</button>
+
+    <div id="results">
+        <h2>All Category Votes</h2>
+        <div id="voteResults"></div>
+    </div>
+
+    <script>
+        const adminPassword = "glamies2025"; // Change this to your secret password
+
+        function checkPassword() {
+            let inputPass = document.getElementById("adminPass").value;
+            if (inputPass === adminPassword) {
+                document.getElementById("results").style.display = "block";
+                loadResults();
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+
+        function loadResults() {
+            let votes = JSON.parse(localStorage.getItem("votes")) || {};
+            let voteResults = document.getElementById("voteResults");
+            voteResults.innerHTML = "";
+
+            for (let category in votes) {
+                let categoryDiv = document.createElement("div");
+                categoryDiv.classList.add("category");
+
+                let nominees = votes[category];
+                let maxVotes = Math.max(...Object.values(nominees)); // Find the highest vote count
+
+                let nomineeList = "<ul>";
+                for (let nominee in nominees) {
+                    let highlightClass = nominees[nominee] === maxVotes ? "highlight" : "";
+                    nomineeList += `<li class="${highlightClass}">${nominee}: ${nominees[nominee]} votes</li>`;
+                }
+                nomineeList += "</ul>";
+
+                categoryDiv.innerHTML = `<h3>${category.replace('category', 'Category ')}:</h3> ${nomineeList}`;
+                voteResults.appendChild(categoryDiv);
+            }
+        }
+    </script>
+
+</body>
+</html>
