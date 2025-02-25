@@ -41,57 +41,58 @@
 
     <button id="submitBtn" onclick="submitVote()">Submit Vote</button>
 
-    <script>
-        let selectedVote = null;
-        let votes = JSON.parse(localStorage.getItem("votes")) || {};
 
-        function vote(category, nominee, event) {
-            // Allow changing the vote before submitting
-            document.querySelectorAll('.vote-btn').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-            selectedVote = nominee;
+<script>
+    let selectedVote = null;
+    let category = "category1"; // Change this for each category (category1, category2, etc.)
+    let votes = JSON.parse(localStorage.getItem("votes")) || {};
+
+    function vote(category, nominee, event) {
+        // Allow changing the vote before submitting
+        document.querySelectorAll('.vote-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+        selectedVote = nominee;
+    }
+
+    function submitVote() {
+        if (!selectedVote) {
+            alert("Please select a nominee first!");
+            return;
         }
 
-        function submitVote() {
-            if (!selectedVote) {
-                alert("Please select a nominee first!");
-                return;
-            }
+        // Ensure category exists in localStorage
+        if (!votes[category]) {
+            votes[category] = {};
+        }
 
-            // Ensure category exists in localStorage
-            if (!votes["category1"]) {
-                votes["category1"] = {};
+        // Remove previous vote if exists
+        Object.keys(votes[category]).forEach(nominee => {
+            if (votes[category][nominee] && nominee !== selectedVote) {
+                votes[category][nominee] -= 1;
             }
+        });
 
-            // Remove previous vote if exists
-            Object.keys(votes["category1"]).forEach(nominee => {
-                if (votes["category1"][nominee] && nominee !== selectedVote) {
-                    votes["category1"][nominee] -= 1;
+        // Count the new vote
+        votes[category][selectedVote] = (votes[category][selectedVote] || 0) + 1;
+        localStorage.setItem("votes", JSON.stringify(votes));
+
+        alert("Vote submitted!");
+        document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+        document.getElementById('submitBtn').disabled = true;
+    }
+
+    // Disable buttons if user already voted
+    if (localStorage.getItem("votes")) {
+        let storedVotes = JSON.parse(localStorage.getItem("votes"));
+        if (storedVotes[category]) {
+            Object.keys(storedVotes[category]).forEach(nominee => {
+                if (storedVotes[category][nominee] > 0) {
+                    document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+                    document.getElementById('submitBtn').disabled = true;
                 }
             });
-
-            // Count the new vote
-            votes["category1"][selectedVote] = (votes["category1"][selectedVote] || 0) + 1;
-            localStorage.setItem("votes", JSON.stringify(votes));
-
-            alert("Vote submitted!");
-            document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-            document.getElementById('submitBtn').disabled = true;
         }
-
-        // Disable buttons if user already voted
-        if (localStorage.getItem("votes")) {
-            let storedVotes = JSON.parse(localStorage.getItem("votes"));
-            if (storedVotes["category1"]) {
-                Object.keys(storedVotes["category1"]).forEach(nominee => {
-                    if (storedVotes["category1"][nominee] > 0) {
-                        document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-                        document.getElementById('submitBtn').disabled = true;
-                    }
-                });
-            }
-        }
-    </script>
-
+    }
+</script>
 </body>
 </html>
