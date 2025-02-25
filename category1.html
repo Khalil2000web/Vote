@@ -24,9 +24,9 @@
   <label class="main63rvoter">اسم المصوت<input type="name" name="Name" required placeholder="الاسم"></label>
   <p>صوت لافضل فيديو للسنة</p>
   <div class="list35f">
-    <label class="nominee"><input type="radio" name="vote" value="Candidate A" required>AHMAD<img src="https://via.placeholder.com/150" alt="Candidate A" width="150"></label>
-    <label class="nominee"><input type="radio" name="vote" value="Candidate B">OMAYA<img src="https://via.placeholder.com/150" alt="Candidate B" width="150"></label>
-    <label class="nominee"><input type="radio" name="vote" value="Candidate C">EMRAN<img src="https://via.placeholder.com/150" alt="Candidate C" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate A" required>AHMAD<img src="https://placehold.co/400" alt="Candidate A" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate B">OMAYA<img src="https://placehold.co/400" alt="Candidate B" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate C">EMRAN<img src="https://placehold.co/400" alt="Candidate C" width="150"></label>
   </div>
   <button type="submit">صوت!</button>
 </form>
@@ -37,7 +37,7 @@
 
 <script>
   if (localStorage.getItem('hasVoted') === 'true') {
-    document.getElementById('voteForm').style.display = 'flex';
+    document.getElementById('voteForm').style.display = 'none';
     document.getElementById('thankYouMessage').style.display = 'flex';
   }
 
