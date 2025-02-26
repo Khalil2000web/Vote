@@ -20,25 +20,23 @@
 </div>
 <h1 class="h1">Video Of The Year - فيديو السنة الافضل</h1>
 
+
 <form id="voteForm" action="https://formspree.io/f/mkggzkwz" method="POST" onsubmit="submitVote(event)">
-  <label class="main63rvoter">اسم المصوت<input type="name" name="Name" required placeholder="الاسم"></label>
+  <label class="main63rvoter">الايميل<input type="name" name="Name" required placeholder="الاسم الكريم"></label>
   <p>صوت لافضل فيديو للسنة</p>
   <div class="list35f">
-    <label class="nominee"><input type="radio" name="vote" value="Candidate A" required>AHMAD<img src="https://placehold.co/400" alt="Candidate A" width="150"></label>
-    <label class="nominee"><input type="radio" name="vote" value="Candidate B">OMAYA<img src="https://placehold.co/400" alt="Candidate B" width="150"></label>
-    <label class="nominee"><input type="radio" name="vote" value="Candidate C">EMRAN<img src="https://placehold.co/400" alt="Candidate C" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate A" required>AHMAD<img src="https://via.placeholder.com/150" alt="Candidate A" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate B">OMAYA<img src="https://via.placeholder.com/150" alt="Candidate B" width="150"></label>
+    <label class="nominee"><input type="radio" name="vote" value="Candidate C">EMRAN<img src="https://via.placeholder.com/150" alt="Candidate C" width="150"></label>
   </div>
   <button type="submit">صوت!</button>
 </form>
 
-<div id="thankYouMessage" style="display: none;min-height: 75vh;align-items: center;text-align: center;justify-content: center;width:100%;max-width: 90%;font-size:2.2rem;padding:0;margin:0 auto;direction: rtl;">
-تم ارسال تصويتك بنجاح. شكراً لمشاركتك!
-</div>
-
 <script>
-  if (localStorage.getItem('hasVoted') === 'true') {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('voted') === 'true') {
     document.getElementById('voteForm').style.display = 'none';
-    document.getElementById('thankYouMessage').style.display = 'flex';
+    document.getElementById('thankYouMessage').style.display = 'block';
   }
 
   function submitVote(event) {
@@ -50,8 +48,17 @@
     document.getElementById('thankYouMessage').style.display = 'block';
 
     event.target.submit();
+
+    setTimeout(() => {
+      window.location.href = window.location.pathname + '?voted=true';
+    }, 500);
   }
 </script>
+
+
+<div id="thankYouMessage" style="display: none;min-height: 75vh;align-items: center;text-align: center;justify-content: center;width:100%;max-width: 90%;font-size:2.2rem;padding:0;margin:0 auto;direction: rtl;">
+تم ارسال تصويتك بنجاح. شكراً لمشاركتك!
+</div>
 
 <footer>
 <a class="helpbtn" href="/help">مساعدة</a>
